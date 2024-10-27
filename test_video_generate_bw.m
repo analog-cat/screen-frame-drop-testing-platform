@@ -1,18 +1,22 @@
-%创建测试视频
-%格子行数列数
+%Generate test video
+
+%set number of row and col
 rows = 16;
 cols = 30;
-%视频分辨率
-%frameHeight = rows*75;
-%frameWidth = cols*75;
+
+%set resolution
 frameHeight = 1080;
 frameWidth = 1920;
-framerate = 120;
-videolength = 5; %sec
 
-loop = videolength/(rows*cols*1/framerate); %循环多少遍
+%set fps
+framerate = 120;
+
+%set video length (sec)
+videolength = 5;
+loop = videolength/(rows*cols*1/framerate);
+
 % Create a video writer object
-name = strcat(num2str(framerate),'fps测试视频.avi');
+name = strcat(num2str(framerate),'fps_test_video.avi');
 v = VideoWriter(name);
 v.FrameRate = framerate;
 open(v);
@@ -21,16 +25,19 @@ open(v);
 cellWidth = frameWidth / cols;
 cellHeight = frameHeight / rows;
 
+%colordisk
+colordisk = [255 255 255; 255 255 255; 255 255 255; 255 255 255];
+
+%generate a videohead 
 headframe = zeros(frameHeight, frameWidth, 3, 'uint8');
 headframe(1:frameHeight, 1:frameWidth, :) = 0;
-
-colordisk = [255 255 255; 255 255 255; 255 255 255; 255 255 255];
 
 for m = 1:framerate*3
     writeVideo(v, headframe);
 end
+
+%Generate frames
 for k = 1:loop
-    % Generate frames
     disky = 0;
     for m = 1:((rows*cols)/framerate)
         disky = disky + 1;
